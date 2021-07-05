@@ -1,0 +1,204 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+
+\usepackage{graphicx}  
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{breakcites}
+\usepackage{indentfirst}
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage[cmex10]{amsmath}
+\usepackage{stfloats}
+\usepackage{multirow}
+\usepackage{url}
+
+\renewcommand{\refname}{REFERENCES}
+\linespread{1.3}
+
+\usepackage{mathtools}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\thispagestyle{empty}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\textbf{}\\
+\textbf{\Large{ISTANBUL TECHNICAL UNIVERSITY}}\\
+\vspace{0.5cm}
+\textbf{\Large{COMPUTER ENGINEERING DEPARTMENT}}\\
+\vspace{2cm}
+\textbf{\Large{BLG 351E\\ MICROCOMPUTER LABORATORY\\ EXPERIMENT REPORT}}\\
+\vspace{2.8cm}
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{lcl}
+\textbf{EXPERIMENT NO}  & : & 5 \\
+\textbf{EXPERIMENT DATE}  & : & 14.12.2020 \\
+\textbf{LAB SESSION}  & : & MONDAY - 13.30 \\
+\textbf{GROUP NO}  & : & G10 \\
+\end{tabular}}
+\end{table}
+\vspace{1cm}
+\textbf{\Large{GROUP MEMBERS:}}\\
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{rcl}
+150180103  & : & EGEMEN GÜLSERLİLER \\
+150180028  & : & ABDULKADİR PAZAR \\
+150180716  & : & AHMET SELÇUK TUNÇER \\
+\end{tabular}}
+\end{table}
+\vspace{2.8cm}
+\textbf{\Large{AUTUMN 2020}}
+
+\end{center}
+
+\end{titlepage}
+
+\thispagestyle{empty}
+\addtocontents{toc}{\contentsline {section}{\numberline {}FRONT COVER}{}}
+\addtocontents{toc}{\contentsline {section}{\numberline {}CONTENTS}{}}
+\setcounter{tocdepth}{4}
+\tableofcontents
+\clearpage
+
+\setcounter{page}{1}
+
+\section{INTRODUCTION}
+In this experiment, we created a counter and two number games using external interrupts on given circuit designs. One of the games is a number guessing game played by one player. The other game is a 2-player game in which player aims to catch the number selected by the other player.
+
+
+\section{MATERIALS AND METHODS}
+
+\subsection{Part 1}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{part1.1.png}	
+	\caption{Functions used to run the interrupt subroutines}
+	\label{fig1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{part1.2.png}	
+	\caption{Interrupt subroutines}
+	\label{fig2}
+\end{figure}
+
+In this part we implemented a 2-digit decimal timer. The value of the timer changes every second. We used the attachInterrupt() function to run the appropriate subroutine when the correct button is pressed. When button 1 is pressed, counter is reset; when button 2 is pressed, counter changes counting mode between counting up and counting down.
+
+\newpage
+\subsection{Part 2}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{part2.1.png}	
+	\caption{Interrupt subroutine for button press}
+	\label{fig3}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\# & A & B & C & D & E & F & G & PORTB (A+B+C) & PORTD (D+E+F+G$\ll$4)\\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 16\\
+\hline
+1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 4 & 240\\
+\hline
+2 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 32\\
+\hline
+3 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 96\\
+\hline
+4 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 4 & 192\\
+\hline
+5 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 2 & 64\\
+\hline
+6 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 2 & 0\\
+\hline
+7 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 240\\
+\hline
+8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline
+9 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 64\\
+\hline
+A & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 128\\
+\hline
+B & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 6 & 0\\
+\hline
+C & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 3 & 16\\
+\hline
+D & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 4 & 32\\
+\hline
+E & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 3 & 0\\
+\hline
+F & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 3 & 128\\
+\hline
+\end{tabular}
+\caption{Mapping logic for seven segment displays}
+\end{table}
+
+In this part we built a number guessing game. We used the mapping logic explained in the table to display numbers in seven segment displays. Numbers from 0-F are displayed in leftmost seven segment display. Every time the button is clicked we enter the subroutine above. This subroutine shifts the numbers in seven segment displays to the right. In the end it compares the guess of the player with the number. If they are equal the game is won and the displays show the number.
+
+\subsection{Part 3}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{part3.1.png}	
+	\caption{Interrupt subroutines for Part 3}
+	\label{fig4}
+\end{figure}
+
+In this part we created a 2-player game. Same mapping logic as part 2 is used to display numbers in seven segment display. At the beginning the when first player presses the button program enters the pick1() subroutine. In this subroutine the number player 1 picked is stored in player\_pick variable, player changes from 1 to 2 and counter is reset to 1. After that player 2 will try to catch the player 1. When player 2 presses their button, program enters pick2() subroutine. This subroutine is similar to pick1(). As long as one of the players don't manage to catch their opponents number, player\_pick will be set to counter, player will change to their opponent, counter will reset. If one of the players manages to catch their opponent, all displays will show the player's number.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{part3.2.png}	
+	\caption{Code to display the winning player}
+	\label{fig5}
+\end{figure}
+\newpage
+\section{RESULTS}
+\subsection{Part 1}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{result_part1.1.png}	
+	\caption{Counter reset functionality}
+	\label{fig6}
+\end{figure}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{result_part1.2.png}	
+	\caption{Counting mode change functionality}
+	\label{fig7}
+\end{figure}
+At the end of the first task, the team is succeeded in implementing a simple two-digit decimal counter using two seven-segment displays with desired functionalities. Implementation of this part is mentioned in detail at the material and methods section. Basically, program is implemented in a way that when first button is clicked the counter is reset to 0. Also, program has another functionality which is counting up and counting down modes which is controlled by second push-button. 
+\subsection{Part 2}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{result_part2.png}	
+	\caption{Displays during the game (left) Displays when the game is over (right)}
+	\label{fig8}
+\end{figure}
+In the second part, the team implemented a game in which the aim of users is to guess the target number (i.e., 3 digits long) by means of push button presses Implementation of this part is mentioned in detail at the material and methods section. Simply, 4-bit counter (0-F) is displayed on the left-most 7-segment display and takes input from user. When user make a selection, the selected number is shown on the 7-segment display on the right. When selected number matches with the target, game ends.
+\subsection{Part 3}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{result_part3.png}	
+	\caption{Displays during the game (left) Displays when the game is won by p2 (right)}
+	\label{fig9}
+\end{figure}
+In the last part of the experiment, a 2-player number game using push-buttons was developed as required. The aim of the game was to try and catch the number of the other player. At first we created a counter that counts continuously from 1 to 20 with a 200 ms delay. When the first player presses the  button, the selected number is shown on two left-most 7-segment display. After that the second player will press the second button to catch the number chosen by the first player. If he catches, then player 2 wins the game. Otherwise, the first counter will start and the first player try to catch the number chosen by the second player. When the game is over, the winner of the game is indicated on all 7-segment display in the form of "1111" or "2222".
+\section{DISCUSSION}
+In the first part of the experiment, attachInterrupt() function which is provided by the Arduino environment and reset() and other\_way() functions which are written by us are implemented easily and these made our task easy because the methods that are we are expected to achieve was easy to handle compared to other tasks. And also we use millis() delay function instead of delay().
+
+In second part of the experiment, we consumed great portion of our time to understand the rules of the game. After we figured out the game, we handled the task. Rest of the experiment is a little bit straightforward and we handled successfully.
+
+The last part of the experiment is similar with the part 2 in regards to the implementation. At first we determined the scenarios and then implemented and then we mostly use if statements and port manipulations that used in part 2. It took less time to understand but more time to handle because there was a little bit longer to code.
+\newpage
+\section{CONCLUSION}
+In this experiment we learned how an interrupt can stop the current process and start another one.  We were mainly concerned about how could we keep our seven segment displays in a stable state so that we could observe the numbers clearly. Also especially in Part 2 we struggled a bit to understand and implement the game logic. This experiment overall was a good practice to understand the basics of I/O systems.
+\end{document}

@@ -1,0 +1,248 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+
+\usepackage{graphicx}  
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{breakcites}
+\usepackage{indentfirst}
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage[cmex10]{amsmath}
+\usepackage{stfloats}
+\usepackage{multirow}
+
+\renewcommand{\refname}{REFERENCES}
+\linespread{1.3}
+
+\usepackage{mathtools}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\thispagestyle{empty}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\textbf{}\\
+\textbf{\Large{ISTANBUL TECHNICAL UNIVERSITY}}\\
+\vspace{0.5cm}
+\textbf{\Large{COMPUTER ENGINEERING DEPARTMENT}}\\
+\vspace{2cm}
+\textbf{\Large{BLG 351E\\ MICROCOMPUTER LABORATORY\\ EXPERIMENT REPORT}}\\
+\vspace{2.8cm}
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{lcl}
+\textbf{EXPERIMENT NO}  & : & 6 \\
+\textbf{EXPERIMENT DATE}  & : & 21.12.2020 \\
+\textbf{LAB SESSION}  & : & FRIDAY - 08.30 \\
+\textbf{GROUP NO}  & : & G10 \\
+\end{tabular}}
+\end{table}
+\vspace{1cm}
+\textbf{\Large{GROUP MEMBERS:}}\\
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{rcl}
+150180028  & : & ABDÜLKADİR PAZAR\\
+150180103  & : & EGEMEN GÜLSERLİLER \\
+150180716  & : & AHMET SELÇUK TUNCER \\
+\end{tabular}}
+\end{table} 
+\vspace{2.8cm}
+\textbf{\Large{FALL 2020}}
+
+\end{center}
+
+\end{titlepage}
+
+\thispagestyle{empty}
+\addtocontents{toc}{\contentsline {section}{\numberline {}FRONT COVER}{}}
+\addtocontents{toc}{\contentsline {section}{\numberline {}CONTENTS}{}}
+\setcounter{tocdepth}{4}
+\tableofcontents
+\clearpage
+
+\setcounter{page}{1}
+
+\section{INTRODUCTION}
+In this experiment, we implemented timer interrupt functions and observed these timer interrupts in  LED's, 7 segment displays and LCD.
+
+\section{MATERIALS AND METHODS}
+\subsection{Part 1}
+At part 1, we used LED's and we displayed two patterns using timer interrupt and interrupt functions. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{setup1.png}
+	\label{fig1}
+	\caption{Setup Phase}
+\end{figure}
+We needed two int to create each pattern. A boolean variable (first\_one) to determine which pattern we are on and another boolean variable (which\_way) to use in pattern 2 since the pattern will continue in opposite direction. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{variables.png}
+	\caption{Variables}
+\end{figure}
+Figure below is the swap function which is being called by the external interrupt to change the pattern that is being displayed on the LEDs.
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{swap.png}
+	\label{fig3}
+	\caption{External Interrupt Function}
+\end{figure}
+Since we circularly shift numbers at both of the patterns. We opted to write two functions that circularly shift numbers. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{shifters.png}
+	\label{fig4}
+	\caption{Shift Functions}
+\end{figure}
+And finally below figures are the implementations of patterns. Both are a part of the timer interrupt.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{pattern1.png}
+	\label{fig5}
+	\caption{First Pattern}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{pattern2.png}
+	\label{fig6}
+	\caption{Second Pattern}
+\end{figure}
+
+\newpage
+\subsection{Part 2}
+In this part, we implemented a stopwatch using Timer Interrupts and External Interrupts. Since we are counting centiseconds timer interrupt frequency should be 100Hz. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{setup2.png}
+	\label{fig7}
+	\caption{Setup Phase}
+\end{figure}
+Mapping logic of PORTD and PORTB values to seven segment displays are shown in the table below.
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+# & A & B & C & D & E & F & G & PORTB (A+B+C) & PORTD (D+E+F+G$\ll$4)\\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 16\\
+\hline
+1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 4 & 240\\
+\hline
+2 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 32\\
+\hline
+3 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 96\\
+\hline
+4 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 4 & 192\\
+\hline
+5 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 2 & 64\\
+\hline
+6 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 2 & 0\\
+\hline
+7 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 240\\
+\hline
+8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline
+\end{tabular}
+\caption{Mapping logic for seven segment displays}
+\end{table}
+We use loop function to display the counter value on the seven segment displays and check if the reset button is clicked. To check if reset button is clicked we mask the PINB value to variable B. If button is pressed B=32 else B=0. When button is pressed it calls the reset function.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{loop2.png}
+	\label{fig7}
+	\caption{Loop}
+\end{figure}
+The start function which is attached to an external interrupt only changes the boolean variable "started". But as long as started is false nothing is happening on the circuit in terms of counting, we display 4 zeros since stopwatch isn't counting.
+With timer interrupt we increment the counter and lap\_counter values by one since we are counting every centisecond.
+Lap function which is attached to another external interrupt resets the lap\_counter, increments lap\_number and prints lap number lap time and total time to Serial Monitor.
+And the reset function resets all variables to their initial values and stops the counting.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{alles2.png}
+	\caption{Start, Stop and Lap Functions}
+\end{figure}
+\subsection{Part 3}
+In this part, we displayed our names on an LCD screen. We used the given initLCD, waitMillis and WaitMicros functions. Setup phase is also fairly standard. It just sets all pins in PORTB and PORTD as output. We implemented sendChar and sendCMD functions. They are pretty similar. Only difference between them is sendCMD sets RS value as 0 whereas sendChar sets it as 1. In both functions we take the data as characters and shift them 4 bits so that they are in the correct place to be sent over to the LCD.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{senders.png}
+\end{figure}
+And finally the trigger\_enable function. Simply enables the LCD waits for 50 microseconds then disables it back. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{trigger.png}
+\end{figure}
+At loop we send necessary functions one by one to write our names on the LCD. We called initLCD() before sending the data to the LCD so that the screen would be empty when writing a new name.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{loop3.png}
+	\caption{A part of Loop3}
+\end{figure}
+
+\subsection{Part 4}
+Here we used the 1Hz timer interrupt to count down second by second similar to part 1. We used all the functions related with LCD from Part 3. This time we printed a countdown and similar to part3 we did this in loop. Timer interrupt counts down the counter every second until counter hits 0. And to display seconds minutes and hours we used display\_number and display\_time functions below.
+\newline
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{TI.png}
+	\caption{Timer Interrupt and Displaying Timer}
+\end{figure}
+And at last we check in loop if the counter has reached 0. If it has we send a signal to the piezo.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{checo.png}
+	\caption{A part of Loop4}
+\end{figure}
+
+\newpage
+\section{RESULTS }
+\subsection{Part 1}
+At the end of the first task, the team is succeeded in implementing given patterns on the
+leds. Implementation of this part is mentioned in detail at the material and methods section. Basically, by default our program generates the first pattern showed in figure 1.a and if button is clicked it switched to second pattern which is showed in figure 1.b.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{part1.png}
+	\caption{Part 1}
+\end{figure}
+ 
+\subsection{Part 2}
+In the second part, the team implemented a stopwatch that counts time in centiseconds. Implementation of this part is mentioned in detail at the material and methods section. As asked, two left most 7-segment display is reserved for seconds and other two for centiseconds. First button achieved to starting of stopwatch, second works as a lap button button and the last one is reset button. In addition, serial monitor displays desired values; lap time, lap count and total time.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{part2.png}
+	\caption{Part 2}
+\end{figure}
+\subsection{Part 3}
+In the third part, the team implemented the program that drives 16x2 dot matrix LCD. Two desired task is achieved respectively, at first we configure the LCD display in order to communicate in 4-bit(D4-D7) mode and then we send 8-bit ASCII characters as nibbles (4 bits) to display using the specific instruction. We use five subroutines that given in the homework file as a guide to complete this task. At the end of the third part our names are displayed on the LCD.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{part3.png}
+	\caption{Part 3}
+\end{figure}
+\subsection{Part 4}
+In the last part of the experiment, the team successfully implemented the countdown timer that can counts down in seconds, minutes, and hours using LCD and timer interrupt. Implementation of this part is mentioned in detail at the material and methods section. At the end of the part 4, countdown timer is programmed such a way that it can be used with different countdown numbers and a sound from the buzzer rings at end of the timer.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{part4.1.png}
+	\caption{Part 4}
+\end{figure}
+\section{DISCUSSION}
+In the first part of the experiment, timer interrupts were used alongside external interrupts. In the timer interrupt requested patterns were produced and displayed on LEDs. The external interrupt was a simple change in a boolean variable to change patterns. csr() and csl() functions we wrote made our task easy as we were able to produce patterns easily using these functions. This task was easy to achieve compared to the other tasks as we only had to deal with LED lights.
+
+In the second part of the experiment, the given task was similar to the first task in that we used timer interrupts alongside external interrupts. We first tried to implement the 3rd button as an external interrupt but since attachInterrupt() function on Arduino Uno boards doesn't support buttons connected to pin 13, we used a simple if statement to check the button press.
+
+In the third part of the experiment, we used an LCD display to write our names. We used the given initLCD() function to initialize the LCD display. Given delay functions didn't work as the compiler optimized away the while loop in the code so we wrote a new delay function. We implemented sendCMD() and sendChar() functions to send characters to the LCD display 4 bits at a time. We used the given manual to find the binary equivalents of letters of our names and used the loop function to display each group member continuously with a 2 second delay.
+
+In the fourth and last part of the experiment, we used the LCD display and the piezo to implement a countdown timer that gives an alert sound when the countdown is finished. We entered the timer value in seconds as a variable to the program, implemented display\_time() function to display time in hh:mm:ss format. The counter is decremented using timer interrupt subroutine. The sound is played when the counter reaches 0. This part was easy to implement as we learned the basics of LCD display after completing part 3.
+\section{CONCLUSION}
+In this experiment we learned how to use timer interrupts. We used timer interrupts alongside external interrupts in first two parts. Learning the basics of LCD display proved tricky as most resources on the Internet used external libraries. This experiment overall was a good practice to understand the basics of Timer interrupts and interacting with LCD displays.
+\end{document}

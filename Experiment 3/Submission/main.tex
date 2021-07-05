@@ -1,0 +1,199 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+
+\usepackage{graphicx}  
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{breakcites}
+\usepackage{indentfirst}
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage[cmex10]{amsmath}
+\usepackage{stfloats}
+\usepackage{multirow}
+
+\renewcommand{\refname}{REFERENCES}
+\linespread{1.3}
+
+\usepackage{mathtools}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\thispagestyle{empty}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\textbf{}\\
+\textbf{\Large{ISTANBUL TECHNICAL UNIVERSITY}}\\
+\vspace{0.5cm}
+\textbf{\Large{COMPUTER ENGINEERING DEPARTMENT}}\\
+\vspace{2cm}
+\textbf{\Large{BLG 351E\\ MICROCOMPUTER LABORATORY\\ EXPERIMENT REPORT}}\\
+\vspace{2.8cm}
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{lcl}
+\textbf{EXPERIMENT NO}  & : & 3 \\
+\textbf{EXPERIMENT DATE}  & : & 30.11.2020 \\
+\textbf{LAB SESSION}  & : & MONDAY - 13.30 \\
+\textbf{GROUP NO}  & : & G10 \\
+\end{tabular}}
+\end{table}
+\vspace{1cm}
+\textbf{\Large{GROUP MEMBERS:}}\\
+\begin{table}[ht]
+\centering
+\Large{
+\begin{tabular}{rcl}
+150180103  & : & EGEMEN GÜLSERLİLER \\
+150180028  & : & ABDÜLKADİR PAZAR \\
+150180716  & : & AHMET SELÇUK TUNÇER \\
+\end{tabular}}
+\end{table}
+\vspace{2.8cm}
+\textbf{\Large{AUTUMN 2020}}
+
+\end{center}
+
+\end{titlepage}
+
+\thispagestyle{empty}
+\addtocontents{toc}{\contentsline {section}{\numberline {}FRONT COVER}{}}
+\addtocontents{toc}{\contentsline {section}{\numberline {}CONTENTS}{}}
+\setcounter{tocdepth}{4}
+\tableofcontents
+\clearpage
+
+\setcounter{page}{1}
+
+\section{INTRODUCTION}
+
+In this experiment, a system will be designed using interrupts to detect a button press in assembly language. Interrupts are the conditions that temporarily suspend the main program, pass the control to the external sources and execute their task. By using interrupts rare events can be detected.\\
+\section{MATERIALS AND METHODS}
+
+This experiment is conducted via using Arduino Uno Board, 8 led and 2 seven segment display. This board is programmed using Tinkercad IDE according to desired tasks on the experiment handout.\\
+
+\subsection{Part 1}
+In the first part of the experiment, a left shift program that is displayed on LEDs repeatedly with 1-second delay at each increment is designed.\\
+In order to implement the desired feature, the following setup code given in Figure 1 was written.
+
+\begin{itemize}
+    \item Line 5-14: These lines was already given with template code and it is used for 1 second delay.
+    \item Line 15: This line was used for Carry=1 condition that if occured loop part is branched EX subroutine.
+    \item Line 16-21: In these lines we set DDRD register to r16 register and set r16 as output and also we assign r17 register to 1 and set it as PORTD
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\textwidth]{part1.1.png}	
+	\caption{Code for part 1}
+	\label{fig1}
+\end{figure}
+
+In order to implement the desired feature, the following loop code given in Figure 2 was written.\\
+
+\begin{itemize}
+    \item Line 30-31: Calling for 1 second delay and setting PORTD to register r16.
+    \item Line 32-33: Left shift operation and if carry equals to 1 branch to EX subroutine
+    \item Line 33-34: Setting r16 register as PORTD and jump to loop in order to continue loop.
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\textwidth]{part1.2.png}	
+	\caption{Code for part 1}
+	\label{fig1}
+\end{figure}
+
+\clearpage
+
+\subsection{Part 2}
+In this part we are given 2 seven segment display and 2 button for interrup handling. When first button clicked counter will increase by one
+and if second button clicked counter will decrease by 1. \\
+In order to implement the desired feature, the following setup code given in Figure 3 and 4 was written.\\
+
+\begin{itemize}
+    \item Line 5-14: These lines was already given with template code and it is used for 12 millisecond delay.
+    \item Line 15-23: This lines was used for incrementing by 1. We set r19 register as PINB input. We increment via line 18 and if button is not released we skipped incrementation thanks to line 17. Also if increment reach 9, we use lines 19 and 20 by jumping w5 to set 1's digit 0 and increment 10's digit by 1.
+    \item Line 24-32: In these lines we implemented decrements by 1. We set r19 register as PINB input. We decremented via line 27 and if button is not released we skipped decrement thanks to line 26. Also if decrement is 0, we use lines 28 and 29 by jumping w8 to set 1's digit 9 and decrement 10's digit by 1.
+    \item Line 33-36: This lines is used to jump ART-TEN or AZT-TEN subroutines. And HUND subroutine is implemented if counting reaches 99. When this happen 10' digit set 0 and 1' digit incremented by 1.
+    \item Line 37-44: In these lines we implemented 1's digit cases. If 1's digit reaches 9 and we push first button, we jumped ART-TEN and increment 10' digit by 1. If counting reaches 100 we jumped
+    HUND subroutine to turn back 00. If 1's digit reaches 0 and we push second button, we jumped AZT-TEN and decrement 10' digit by 1 and set 1' digit 9.
+    \item Line 46-55: We set DDRB to r16 register and DDRC to r17. r18 register is designed to keep and display the least significant digit. r19 and r20 is used to get values from PINB
+     and PINC accordingly in the loop.
+\end{itemize}
+
+In order to implement the desired feature, the following loop code given in Figure 5 was written.\\
+
+\begin{itemize}
+    \item Line 64-68: We ste PINB to r19 register. If first button clicked call ARTB, skip if not. If second button clicked call AZTB, skip if not.
+    \item Line 69-72: This lines was used to set r18 register to PORTB and r20 to PORTC and we call delay.
+\end{itemize}
+
+ \begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{part2.1.png}	
+	\caption{Code for part 2}
+	\label{fig1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{part2.1.2.png}	
+	\caption{Code for part 2}
+	\label{fig1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{part2.2.png}	
+	\caption{Code for part 2}
+	\label{fig1}
+\end{figure}
+
+\clearpage
+\subsection{Part 3}
+In this part we are asked to develeop an up-counter. We are given 2 seven segment display, 8 leds and 4 buttons. First and second button were supposed to control increment value, and third and fourth button were supposed to control delay duration. Moreover count value should diplayed on both seven segments and leds.
+In order to implement the desired feature, the following setup code given in Figure 6 was written.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{.png}	
+	\caption{}
+	\label{fig1}
+\end{figure}
+
+XXX
+
+\section{RESULTS}
+
+In the first part of the experiment an assembly program created that generates the given sequence - left shift. Result of the program is observed on the leds and everything was smoothly and consistent with our theoretical knowledge.
+
+In the second part of the experiment, simple two-digit decimal counter is programmed and result is displayed on 7 segment displays. When first button is clicked counter has incremented and when second button is clicked counter has decremented as desired. Also edge cases incrementation from x9's to x0's, and decrement from x0's to x9's is performed well. Moreover 99 to 100 case is also taken into account.
+
+In the third part of the experiment, desired up-counter has programmed via assembly language. The 7 segment displays showed the output number as decimal number and leds showed the output number as binary value. Increment number has controlled via first and second button. When first button clicked increment number has decreased by 1 and when second button clicked increment number has increased by 1. Moreover, third and fourth buttons programmed to control delay period. When third button clicked increment number has decreased by 100ms and when fourth button clicked increment number has increased by 100ms. And as requested, push-buttons did not work circular.\\
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{result1.png}	
+	\caption{Desired output sequence for Part 1}
+	\label{fig1}
+\end{figure}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{result3.png}	
+	\caption{Output of the seven segment displays and leds for Part 3}
+	\label{fig1}
+\end{figure}
+
+
+\clearpage
+\section{DISCUSSION}
+At the end of the experiment, the importance and role of the interrupt handling were noticed by team members. Also how 7-segment display works and how can be manipulated are learned. How the registers are controlled and port manupulation via assembly language has learned.
+
+\section{CONCLUSION}
+With this experiment, team have gained more experience with assembly programming. In this experiment, the interrupt handlings are learned. This experiment was the hardest experiment compared to first 2 experiments but the one of the most important experiment. The team has spent much moretime to complete this experiment.
+\end{document}
+
